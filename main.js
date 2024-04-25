@@ -79,6 +79,13 @@ async function loadZones(url) {
   let zones = await response.json();
 
   L.geoJson(zones, {
+    style: function () {
+      return {
+        color: "#F012BE",
+        fillColor: "#F012BE",
+        fillOpacity: 0.3,
+      };
+    },
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`
       <h4>Fußgängerzone ${feature.properties.ADRESSE}</h4>
@@ -87,7 +94,6 @@ async function loadZones(url) {
 
       
       `);
-      layer.setStyle({ color: 'red' });
     }
   }).addTo(themaLayer.zones);
 }
@@ -97,6 +103,33 @@ async function loadLines(url) {
   let lines = await response.json();
 
   L.geoJson(lines, {
+    style: function (feature) {
+
+      if (feature.properties.LINE_NAME === "Blue Line") {
+        return {
+          color: "#0074D9",
+        }
+      } else if (feature.properties.LINE_NAME === "Yellow Line") {
+        return {
+          color: "#FFDC00",
+        }
+      } else if (feature.properties.LINE_NAME === "Red Line") {
+        return {
+          color: "#FF4136",
+        }
+      } else if (feature.properties.LINE_NAME === "Green Line") {
+        return {
+          color: "#2ECC40",
+        }
+      } else if (feature.properties.LINE_NAME === "Orange Line") {
+        return {
+          color: "#FF851B",
+        }
+      }
+      return {
+        color: "black",
+      }
+    },
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`
         <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
