@@ -63,6 +63,17 @@ async function loadSights(url) {
   let sights = await response.json();
 
   L.geoJson(sights, {
+    pointToLayer: function (feature, latlng) {
+      let icon = L.icon({
+        iconUrl: "icons/photo.png",
+      });
+      let marker = L.marker(latlng, {
+        icon: icon,
+      });
+      return marker;
+    },
+
+
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`
       <img src="${feature.properties.THUMBNAIL}" style="width:200px" />
