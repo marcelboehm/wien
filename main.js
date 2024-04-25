@@ -159,6 +159,7 @@ async function loadStops(url) {
   L.geoJson(stops, {
     pointToLayer: function (feature, latlng) {
       let icon = L.icon({
+        popupAnchor: [15, 0],
         iconUrl: `icons/bus_${feature.properties.LINE_ID}.png`,
       });
       let marker = L.marker(latlng, {
@@ -201,8 +202,10 @@ async function loadHotel(url) {
 
       let icon = L.icon({
         iconUrl: `icons/hotel_${stars}stars.png`,
+        popupAnchor: [15, 0],
       });
       let marker = L.marker(latlng, {
+
         icon: icon,
       });
       return marker;
