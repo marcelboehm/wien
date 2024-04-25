@@ -134,7 +134,7 @@ async function loadLines(url) {
         }
       } else if (feature.properties.LINE_NAME === "Orange Line") {
         return {
-          color: "#FF851B",
+          color: "#  ",
         }
       }
       return {
@@ -157,6 +157,15 @@ async function loadStops(url) {
   let stops = await response.json();
 
   L.geoJson(stops, {
+    pointToLayer: function (feature, latlng) {
+      let icon = L.icon({
+        iconUrl: `icons/bus_${feature.properties.LINE_ID}.png`,
+      });
+      let marker = L.marker(latlng, {
+        icon: icon,
+      });
+      return marker;
+    },
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`
         <h4><i class="fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
@@ -170,7 +179,34 @@ async function loadHotel(url) {
   let response = await fetch(url);
   let hotels = await response.json();
 
+
+
   L.geoJson(hotels, {
+    pointToLayer: function (feature, latlng) {
+
+      let stars = "";
+      if (feature.properties.KATEGORIE_TXT === "1*") {
+        stars = "1";
+      } else if (feature.properties.KATEGORIE_TXT === "2*") {
+        stars = "2";
+      } else if (feature.properties.KATEGORIE_TXT === "3*") {
+        stars = "3";
+      } else if (feature.properties.KATEGORIE_TXT === "4*") {
+        stars = "4";
+      } else if (feature.properties.KATEGORIE_TXT === "5*") {
+        stars = "5";
+      } else {
+        stars = "0"
+      }
+
+      let icon = L.icon({
+        iconUrl: `icons/hotel_${stars}stars.png`,
+      });
+      let marker = L.marker(latlng, {
+        icon: icon,
+      });
+      return marker;
+    },
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`
         <h3>${feature.properties.BETRIEB}</h3>
